@@ -2,10 +2,12 @@ package com.example.primeropasoskotlin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.PixelCopy.Request
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,10 +15,13 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.primeropasoskotlin.ui.Home
+import com.example.primeropasoskotlin.viewmodel.PostViewModel
 
 class Login : AppCompatActivity() {
 
     lateinit var btnLogin:Button
+
+    private val postViewModel:PostViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,9 @@ class Login : AppCompatActivity() {
         }
         cargarR()
         estadoButon()
+
+        observandoHttp()
+        loadHttp()
         //cargarVolley()
     }
     //crear la funcion de cargar R
@@ -44,6 +52,28 @@ class Login : AppCompatActivity() {
         }
     }
 
+    private fun observandoHttp(){
+        postViewModel.post.observe(this){ posts ->
+            posts?.forEach {
+                Log.d("Posts","Datos de la HTTP: ${it.body}")
+            }
+
+        }
+
+        postViewModel.error.observe(this){errors ->
+            errors?.let {
+                Log.d("Post","Eroor en la peticion: ${it}")
+            }
+
+        }
+    }
+
+    private fun loadHttp(){
+        postViewModel.getPost()
+    }
+
+
+
     /*fun cargarVolley(){
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
@@ -57,8 +87,6 @@ class Login : AppCompatActivity() {
             },
             Response.ErrorListener {print("error")})
         queue.add(stringRequest)
-
-
 
     }*/
 }
