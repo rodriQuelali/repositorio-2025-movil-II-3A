@@ -52,7 +52,6 @@ class Proveedor: AppCompatActivity() {
             val proveedor = Proveedor(txtCodProve.text.toString().toInt(),txtNomPro.text.toString(),txtNit.text.toString().toInt(), txtDireccion.text.toString())
             val resul = proveedorViewModel.insertarProveedor(proveedor)
             if (resul == 1){
-
                 Toast.makeText(this, "inserto correctamente Proveedor", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "error en el registro", Toast.LENGTH_SHORT).show()
