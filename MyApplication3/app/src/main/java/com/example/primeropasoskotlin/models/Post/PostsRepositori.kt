@@ -31,4 +31,36 @@ class PostsRepositori(context: Context) {
          })
 
     }
+
+    //guardar
+    fun getGguardar(posts: Posts, callback: (Posts) -> Unit, errorCallback: (Throwable)->Unit ){
+        apiService.getGuardar(posts).enqueue(object : Callback<Posts>{
+            override fun onResponse(call: Call<Posts>, response: Response<Posts>) {
+                if (response.isSuccessful){
+                    callback(response.body()!!)
+                    println("data ------------------- ${response.body()}")
+                }else{
+                    errorCallback(Throwable("Error en la respuesta"))
+                }
+            }
+
+            override fun onFailure(call: Call<Posts>, t: Throwable) {
+                errorCallback(t)
+            }
+
+        })
+    }
+
+    fun getEditar(id:Int,posts: Posts, callback: (Posts) -> Unit, errorCallback: (Throwable)->Unit ){
+        apiService.patchPost(id, posts).enqueue(object : Callback<Posts>{
+            override fun onResponse(call: Call<Posts>, response: Response<Posts>) {
+
+            }
+
+            override fun onFailure(call: Call<Posts>, t: Throwable) {
+
+            }
+
+        })
+    }
 }

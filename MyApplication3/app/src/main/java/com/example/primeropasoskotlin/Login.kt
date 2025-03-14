@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.primeropasoskotlin.models.Posts
 import com.example.primeropasoskotlin.ui.Home
 import com.example.primeropasoskotlin.viewmodel.PostViewModel
 
@@ -35,8 +36,12 @@ class Login : AppCompatActivity() {
         cargarR()
         estadoButon()
 
-        observandoHttp()
-        loadHttp()
+        //observandoHttp()
+        observandoGuardaro()
+        val newPost = Posts(102, 1,"Alan", "Brito ... brito...")
+        postViewModel.getGuardar(newPost)
+
+        //loadHttp()
         //cargarVolley()
     }
     //crear la funcion de cargar R
@@ -52,19 +57,35 @@ class Login : AppCompatActivity() {
         }
     }
 
+    //listado de datos, con listviews o resacleview
+
     private fun observandoHttp(){
-        postViewModel.post.observe(this){ posts ->
+        postViewModel.getAll.observe(this){ posts ->
             posts?.forEach {
+
                 Log.d("Posts","Datos de la HTTP: ${it.body}")
             }
-
         }
-
         postViewModel.error.observe(this){errors ->
             errors?.let {
                 Log.d("Post","Eroor en la peticion: ${it}")
             }
+        }
+    }
 
+    //esperandod el estado del guardaro
+    private fun observandoGuardaro(){
+        Toast.makeText(this,"---------------Registro exitoso!!!", Toast.LENGTH_SHORT).show()
+        postViewModel.result.observe(this) { isSuccess  ->
+            Toast.makeText(this,"---------------Registro exitoso!!!", Toast.LENGTH_SHORT).show()
+            if (isSuccess ) {
+                Toast.makeText(this,"---------------Registro exitoso!!!", Toast.LENGTH_SHORT).show()
+                Log.d("Post", "---------------Registro exitoso!!!")
+            } else {
+                Toast.makeText(this,"---------------Error en el registro", Toast.LENGTH_SHORT).show()
+
+                Log.d("Post", "---------------Error en el registro")
+            }
         }
     }
 
