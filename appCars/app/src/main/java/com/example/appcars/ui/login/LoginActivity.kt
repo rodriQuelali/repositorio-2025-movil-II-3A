@@ -15,6 +15,8 @@ import android.widget.Toast
 import com.example.appcars.databinding.ActivityLoginBinding
 
 import com.example.appcars.R
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,9 +29,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
-        val password = binding.password
-        val login = binding.login
+        val username: TextInputEditText = binding.username as TextInputEditText
+        val password: TextInputEditText = binding.password as TextInputEditText
+        val login: MaterialButton = binding.login as MaterialButton
         val loading = binding.loading
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
