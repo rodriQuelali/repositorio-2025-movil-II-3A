@@ -1,6 +1,7 @@
 package com.example.appcars.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import com.example.appcars.MainActivity
 import com.example.appcars.databinding.ActivityLoginBinding
 
 import com.example.appcars.R
@@ -23,11 +25,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val username: TextInputEditText = binding.username as TextInputEditText
         val password: TextInputEditText = binding.password as TextInputEditText
@@ -59,6 +64,9 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
+                //todo bien llega aqui......
+                val i=Intent(this, MainActivity::class.java)
+                startActivity(i)
                 updateUiWithUser(loginResult.success)
             }
             setResult(Activity.RESULT_OK)
