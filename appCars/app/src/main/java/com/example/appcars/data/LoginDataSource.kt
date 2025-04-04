@@ -1,41 +1,41 @@
 package com.example.appcars.data
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import com.example.appcars.data.model.LoggedInUser
 import com.example.appcars.data.model.LoginRequest
 import com.example.appcars.data.services.ApiClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.util.UUID
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 class LoginDataSource(private val context: Context) {
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        try {
-            // Crear la solicitud
+    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+        return try {
             val loginRequest = LoginRequest(email = username, password = password)
+            println("Enviando solicitud con: $loginRequest")
 
-            // Hacer la llamada usando Retrofit
-            val response = ApiClient.create(context).login(loginRequest).execute()
-
-            if (response.isSuccessful) {
-                val loginResponse = response.body()
-                // Guardar el token de acceso si la autenticación es exitosa
-                loginResponse?.let {
-                    saveAccessToken(it.access)
-                }
-
-                // Crear un usuario ficticio con los datos obtenidos
-                val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Alna Brito ////")
-
-                // Retornar el resultado exitoso
-                return Result.Success(fakeUser)
-            } else {
-                return Result.Error(IOException("Error en la autenticación: ${response.message()}"))
+            // Ejecutar la llamada de red en una coroutine
+            val loginResponse = withContext(Dispatchers.IO) {
+                ApiClient.create(context).login(loginRequest)
             }
+
+            println("Respuesta exitosa: $loginResponse")
+
+            // Guardar el token si la autenticación es exitosa
+            saveAccessToken(loginResponse.access)
+
+            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Alna Brito")
+            Result.Success(fakeUser)
         } catch (e: Exception) {
-            return Result.Error(IOException("Error en la conexión", e))
+            println("Error en la autenticación: ${e.message}")
+            Result.Error(IOException("Error en la conexión", e))
         }
     }
 

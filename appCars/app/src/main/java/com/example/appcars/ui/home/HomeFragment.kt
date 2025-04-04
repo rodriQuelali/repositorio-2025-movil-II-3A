@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.appcars.databinding.FragmentHomeBinding
+import com.example.appcars.model.cars.CarDataSource
+import com.example.appcars.model.cars.CarRepository
 import com.example.appcars.model.post.PostDataSource
 import com.example.appcars.model.post.PostRepository
 
@@ -31,7 +33,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val factory = HomeViewModelFactory(PostRepository(PostDataSource(requireContext())))
+        val factory = HomeViewModelFactory(CarRepository(CarDataSource(requireContext())))
         homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
 
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
         }
 
         observandoHttp()
-        homeViewModel.getPost()
+        homeViewModel.getCars()
 
         return root
     }
@@ -49,12 +51,12 @@ class HomeFragment : Fragment() {
     private fun observandoHttp(){
         homeViewModel.getAll.observe(this){ posts ->
             posts?.forEach {
-                Log.d("Posts","Datos de la HTTP: ${it.body}")
+                Log.d("Cars","Datos de la HTTP: ${it}")
             }
         }
         homeViewModel.error.observe(this){errors ->
             errors?.let {
-                Log.d("Post","Eroor en la peticion: ${it}")
+                Log.d("Cars","Eroor en la peticion: ${it}")
             }
         }
     }

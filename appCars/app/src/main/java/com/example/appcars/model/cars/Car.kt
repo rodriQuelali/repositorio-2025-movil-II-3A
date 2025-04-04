@@ -1,9 +1,10 @@
 package com.example.appcars.model.cars
 
 data class Car (
+    val id:Int,
     val make: String,
     val year: Int,
-    val model: Int,
+    val model: String,
     val speed: Int,
-    val fuel: String
+    val fuel: Int
     )

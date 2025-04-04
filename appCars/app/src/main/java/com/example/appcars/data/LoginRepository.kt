@@ -1,6 +1,8 @@
 package com.example.appcars.data
 
 import com.example.appcars.data.model.LoggedInUser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -27,15 +29,16 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        // handle login
-        val result = dataSource.login(username, password)
+    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+        return withContext(Dispatchers.IO) { // Ejecuta en hilo de fondo
+            println("Data Repository +++++++++++++++++++++++ $username $password")
+            val result = dataSource.login(username, password)
 
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
+            if (result is Result.Success) {
+                setLoggedInUser(result.data)
+            }
+            result
         }
-
-        return result
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
