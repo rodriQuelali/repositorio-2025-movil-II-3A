@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    private const val BASE_URL = "http://172.19.0.197:8000/"
+    private const val BASE_URL = "http://3.86.202.19:8000/"
 
     // Instancia única de ApiService
     private var apiService: ApiService? = null
