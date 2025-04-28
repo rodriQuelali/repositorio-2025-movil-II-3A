@@ -12,11 +12,13 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.appcars.MainActivity
 import com.example.appcars.databinding.ActivityLoginBinding
 
 import com.example.appcars.R
+import com.example.appcars.ui.user.UserRegister
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
@@ -37,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         val username: TextInputEditText = binding.username as TextInputEditText
         val password: TextInputEditText = binding.password as TextInputEditText
         val login: MaterialButton = binding.login as MaterialButton
+        val registerUser: TextView? = binding.textUserRegister
         val loading = binding.loading
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this))
@@ -104,6 +107,13 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
+            }
+
+            if (registerUser != null) {
+                registerUser.setOnClickListener{
+                    val i = Intent(this, UserRegister::class.java)
+                    startActivity(i)
+                }
             }
         }
     }
