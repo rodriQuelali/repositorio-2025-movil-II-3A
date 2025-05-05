@@ -1,8 +1,10 @@
 package com.example.clonewhatsapp.data.model
 
+import com.google.firebase.Timestamp
+
 data class Message(
-    val id: String,
-    val sendId: String,
-    val messaje:String,
-    val timeStime: String
+    var id: String = "",
+    var sendId: String = "",
+    var message: String = "",
+    var timestamp: Timestamp = Timestamp.now()
 )
