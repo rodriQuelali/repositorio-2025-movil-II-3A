@@ -22,8 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/color4"
             android:orientation="horizontal"
-            android:background="@color/colormessaje"
             android:padding="8dp">
 
             <ImageButton
@@ -37,10 +37,10 @@
                 android:id="@+id/editTextMessage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginRight="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/disenotexto"
-                android:hint="Escribe un mensaje"/>
+                android:hint="Escribe un mensaje" />
 
             <ImageButton
                 android:id="@+id/sendButton"
